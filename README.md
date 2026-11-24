@@ -1,29 +1,34 @@
-# Assignment 03: Next.js + Express + PostgreSQL + Redis
+# Docker Mastery
 
-| Service  | Dir    | Port | Needs                         |
-| -------- | ------ | ---- | ----------------------------- |
-| web      | `web/` | 3000 | `API_URL`                     |
-| api      | `api/` | 4000 | `DATABASE_URL`, `REDIS_URL`   |
-| postgres | —      | 5432 | `POSTGRES_PASSWORD`, `POSTGRES_DB` |
-| redis    | —      | 6379 | —                             |
+Hands-on Docker / Docker Compose assignments. Each assignment is a self-contained folder with its own `compose.yml` and README.
 
-## Env vars
+| Assignment                         | Stack                                              | Entry point             |
+| ---------------------------------- | -------------------------------------------------- | ----------------------- |
+| [assignment-01](./assignment-01/)  | Express + PostgreSQL 15, nginx reverse proxy       | http://localhost:3000/api/ |
+| [assignment-03](./assignment-03/)  | Next.js + Express + PostgreSQL 17 + Redis 7, nginx | http://localhost:3000   |
 
-- `api/.env.example`: `PORT`, `DATABASE_URL`, `REDIS_URL`. API exits on boot if the DB/Redis URLs are missing or unreachable.
-- `web/.env.example`: `API_URL`. Server-side only, read at **request time**, so one built image works with any API URL.
+## Prerequisites
 
-## API
+- Docker Engine / Docker Desktop with Compose v2 (`docker compose`)
+- Node.js only if running services outside Docker
 
-- `GET /health`: pings Postgres + Redis
-- `GET /visits`: increments a Redis counter
-- `GET /notes`, `POST /notes` `{ "text": "..." }`: Postgres; the `notes` table is created on startup
+## Running an assignment
 
-## Scripts
+```sh
+cd assignment-0X
+docker compose up --build      # start
+docker compose down            # stop
+docker compose down -v         # stop + drop named volumes
+```
 
-- api: `npm start`, `npm run dev` (watch + loads `.env`)
-- web: `npm run dev`, `npm run build`, `npm start`
+Only one assignment can run at a time: both bind host port `3000`.
 
-## TODO (you)
+## Repo layout
 
-- `api/Dockerfile`, `web/Dockerfile`
-- `compose.yml`
+```
+assignment-01/   # single-service API + db + nginx
+assignment-03/   # multi-service app (web, api, db, redis, nginx)
+docs/
+  progress.md    # what's done / next
+  issues.md      # known issues per assignment
+```
