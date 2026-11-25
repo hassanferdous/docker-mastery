@@ -28,7 +28,7 @@ Open http://localhost:3000. nginx is the only service published to the host.
 
 ## Startup order
 
-api waits for db (`pg_isready`) and redis (`redis-cli ping`) healthchecks. web waits for api; nginx waits for api and web (start order only, not health).
+api waits for db (`pg_isready`) and redis (`redis-cli ping`) healthchecks. The api has its own healthcheck (`curl -f localhost:8000/health`, which checks Postgres + Redis); web waits for it to be healthy. nginx waits for web (start order only), so it comes up after the api is healthy.
 
 ## Data
 
@@ -38,10 +38,10 @@ Postgres data is bind-mounted to `./postgres_data` (gitignored). Delete it to re
 
 | Service | Var            | Compose value                                          | Local default (`.env.example`) |
 | ------- | -------------- | ------------------------------------------------------ | ------------------------------ |
-| api     | `PORT`         | `8000`                                                 | `4000`                         |
+| api     | `PORT`         | `8000`                                                 | `8000`                         |
 | api     | `DATABASE_URL` | `postgresql://postgres:postgres@db:5432/assignment03`  | `postgres://postgres:postgres@localhost:5432/app` |
 | api     | `REDIS_URL`    | `redis://redis:6379`                                   | `redis://localhost:6379`       |
-| web     | `API_URL`      | `http://api:8000`                                      | `http://localhost:4000`        |
+| web     | `API_URL`      | `http://api:8000`                                      | `http://localhost:8000`        |
 
 - The api exits on boot if `DATABASE_URL` / `REDIS_URL` are missing or unreachable.
 - `API_URL` is server-side only and read at **request time**, so one built image works with any API URL.

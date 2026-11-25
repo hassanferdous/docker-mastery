@@ -1,6 +1,6 @@
 # Known Issues
 
-Found by reading the config files on 2026-11-24. Not fixed; containers not run.
+Found by reading the config files on 2026-11-24. Containers not run. Fixed items are struck through with the date.
 
 ## assignment-01
 
@@ -18,6 +18,6 @@ Found by reading the config files on 2026-11-24. Not fixed; containers not run.
 1. **api bind-mounts source** (`./api:/app` + anonymous `/app/node_modules`). This is a dev pattern: the container runs host code, not the built image. Remove it for a production-like setup.
 2. **Unpinned / non-LTS images.** `nginx:latest` floats; `node:26-alpine` (api) and `node:lts-alpine` (web) differ. Pin both, e.g. the same Node LTS major and `nginx:1.x`.
 3. **`npm install` instead of `npm ci`** in both Dockerfiles, so builds aren't locked to `package-lock.json`.
-4. **web/nginx `depends_on` isn't health-gated.** The api has no healthcheck, so web and nginx can start before the api is ready. Add an api healthcheck on `/health` and `condition: service_healthy`.
+4. ~~**web/nginx `depends_on` isn't health-gated.**~~ Fixed 2026-11-25: api healthcheck (`curl -f http://localhost:8000/health`, curl added to `api/Dockerfile`); web uses `condition: service_healthy`; nginx depends on web only.
 5. **Postgres credentials hardcoded** in `compose.yml` (`postgres` / `postgres`).
-6. **Port drift.** Under compose the api runs on `8000`; the code default and `.env.example` use `4000`. It works, but it's easy to confuse. Both values are documented in `assignment-03/README.md`.
+6. ~~**Port drift.**~~ Fixed 2026-11-25: api code default, `api/.env.example`, `web/lib/api.js` default and `web/.env.example` all use `8000`.

@@ -35,7 +35,6 @@ There are no tests in the repo.
 - `API_URL` is read at request time (`lib/api.js` + `await connection()` in `page.js`) so one built image works with any API URL. Keep it un-prefixed (no `NEXT_PUBLIC_`) and don't move reads to module/build time.
 - Two networks: `frontend-network` (nginx, web, api) and `app-network` (`internal: true`: api, db, redis). db/redis are reachable only from the api.
 - The api exits on boot if `DATABASE_URL`/`REDIS_URL` are unset or unreachable; it creates the `notes` table on startup (no migrations).
-- Port drift: compose runs the api on `8000`; the code default and `.env.example` use `4000`.
 - Postgres data is bind-mounted at `assignment-03/postgres_data/` (gitignored). Delete it to reset the db. Never commit it.
 - `web/Dockerfile` relies on `output: 'standalone'` in `next.config.mjs`; the runner stage runs `node server.js`, not `next start`.
 - compose bind-mounts `./api:/app` into the api container, so it runs host source rather than the image's copy.
