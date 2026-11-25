@@ -18,6 +18,10 @@ redis.on('error', (err) => console.error('Redis error:', err.message))
 const app = express()
 app.use(express.json())
 
+app.get('/', (req, res) => {
+	res.send('This is the home page of the api')
+})
+
 app.get('/health', async (req, res) => {
 	try {
 		await db.query('SELECT 1')

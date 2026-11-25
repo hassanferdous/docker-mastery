@@ -1,6 +1,6 @@
 # Known Issues
 
-Found by reading the config files on 2026-11-24. Containers not run. Fixed items are struck through with the date.
+Found by reading the config files on 2026-11-24. assignment-03 run and verified 2026-11-25; assignment-01 not run. Fixed items are struck through with the date.
 
 ## assignment-01
 
