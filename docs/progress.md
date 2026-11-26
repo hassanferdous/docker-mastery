@@ -17,6 +17,7 @@ Last updated: 2026-11-25
 - 2026-11-24: READMEs rewritten (root index + per-assignment); added `docs/issues.md` and `docs/progress.md`
 - `c9becd9`, `e8c67c4` (2026-11-25): assignment-03 api healthcheck + health-gated web `depends_on`, `restart` on web (issue 4); api/web port unified on `8000` (issue 6); `api/index.js` reformatted (tabs, single quotes, no semicolons); tracked `web/.env.example`
 - 2026-11-25: assignment-03 tested by user with `docker compose up --build`: working end to end
+- 2026-11-26: assignment-03 api request logging via `morgan("dev")`, skipping `/health` (uncommitted)
 
 ## Next
 

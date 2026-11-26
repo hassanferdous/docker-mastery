@@ -36,7 +36,7 @@ services:
             - POSTGRES_PASSWORD=postgres
             - POSTGRES_DB=assignment03
         volumes:
-            - ./postgres_data:/var/lib/postgresql/data
+            - postgres_data:/var/lib/postgresql/data
         networks:
             - app-network
         healthcheck:
@@ -88,3 +88,6 @@ networks:
     app-network:
         driver: bridge
         internal: true
+
+volumes:
+    postgres_data:

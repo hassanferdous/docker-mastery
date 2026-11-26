@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const {Pool} = require('pg')
 const {createClient} = require('redis')
 
@@ -16,6 +17,8 @@ const redis = createClient({url: REDIS_URL})
 redis.on('error', (err) => console.error('Redis error:', err.message))
 
 const app = express()
+// Skip the compose healthcheck (every 10s) so it doesn't drown out real requests.
+app.use(morgan('dev', {skip: (req) => req.path === '/health'}))
 app.use(express.json())
 
 app.get('/', (req, res) => {
